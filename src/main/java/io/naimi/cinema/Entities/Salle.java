@@ -9,11 +9,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.util.Collection;
 
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Entity @Data @AllArgsConstructor @NoArgsConstructor @ToString
 @Table(name = "salles")
 public class Salle {
 
@@ -22,15 +18,14 @@ public class Salle {
     private Long id;
     private String nom;
     private int nombrePlace;
-    private double altitude,longtitude,latitude;
+    private double altitude, longtitude, latitude;
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Cinema cinema;
-    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "salle")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "salle")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Place> places;
-    @OneToMany(cascade = CascadeType.REMOVE,mappedBy = "salle")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "salle")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Collection<Projection> projections;
-
 }

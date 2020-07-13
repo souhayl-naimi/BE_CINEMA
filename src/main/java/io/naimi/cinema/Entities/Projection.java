@@ -1,5 +1,4 @@
 package io.naimi.cinema.Entities;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;

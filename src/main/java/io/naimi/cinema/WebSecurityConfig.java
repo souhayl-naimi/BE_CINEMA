@@ -40,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .loginPage("/loginPage")
-                .successForwardUrl("/admin")
                 .permitAll();
         http
                 .logout();

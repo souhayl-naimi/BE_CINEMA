@@ -7,11 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
+@Entity @Data @AllArgsConstructor @NoArgsConstructor @ToString
 @Table(name = "tickets")
 public class Ticket {
     @Id
