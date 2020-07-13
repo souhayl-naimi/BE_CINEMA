@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin">
+<head>
+    <title>Films - Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container justify-content-center mt-3">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card" style="border-radius: 25px">
+                    <div class="card-body">
+                        <h5 class="display-4 mx-4 mb-4">Films</h5>
+                        <hr class="mb-5"/>
+                            <label style="margin-left: 2mm; font-weight: bold">Nb. Films : </label>
+                            <label style="margin-left: 4mm; " th:text="${result}"></label>
+                        <div class="container mt-3">
+                            <table class="table table-hover" style="border-radius: 20px" id="table">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Titre</th>
+                                    <th>Description</th>
+                                    <th>Realisateur</th>
+                                    <th>Date Sortie</th>
+                                    <th>Duree</th>
+                                    <th>Salles</th>
+                                    <th colspan="2" class="text-center text-muted">Operations</th>
+                                </tr>
+                                <tr th:each="f:${filmList}">
+                                    <td th:text="${f.id}"></td>
+                                    <td th:text="${f.titre}"></td>
+                                    <td th:text="${f.description}"></td>
+                                    <td th:text="${f.realisateur}"></td>
+                                    <td th:text="${f.dateSortie}"></td>
+                                    <td th:text="${f.duree}"></td>
+                                    <td><a href="#">salles</a></td>
+                                    <td>
+                                        <form th:action="@{deleteFilm}" method="post">
+                                            <input type="hidden" name="id" th:value="${f.id}"/>
+                                            <input type="hidden" name="page" th:value="${currentPage}"/>
+                                            <input type="hidden" name="size" th:value="${size}"/>
+                                            <button type="submit" style="border-radius: 25px"
+                                                    class="btn btn-outline-danger">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{editFilm(id=${f.id})}" style="border-radius: 25px"
+                                           class="btn btn-outline-warning">Update</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <a th:href="@{formFilm}" style="border-radius: 25px"
+                               class="btn btn-block btn-outline-success mb-3">Ajouter</a>
+                        </div>
+                        <ul class="nav nav-pills justify-content-center">
+                            <li th:each="page,status:${pages}">
+                                <a style="border-radius: 50px"
+                                   th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+                                   th:href="@{fils(page=${status.index},size=${size})}"
+                                   th:text="${status.index}+1">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

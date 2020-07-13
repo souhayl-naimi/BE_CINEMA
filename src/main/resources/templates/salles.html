@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin">
+<head>
+    <title>Salles - Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container justify-content-center mt-3">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card" style="border-radius: 25px">
+                    <div class="card-body">
+                        <h5 class="display-4 mx-4 mb-4">Salles</h5>
+                        <hr class="mb-5"/>
+                            <label style="margin-left: 2mm; font-weight: bold">Nb. Salles : </label>
+                            <label style="margin-left: 4mm; " th:text="${result}"></label>
+                        <div class="container mt-3">
+                            <table class="table table-hover" style="border-radius: 20px" id="table">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th>Altitude</th>
+                                    <th>Longtitude</th>
+                                    <th>Latitude</th>
+                                    <th>Nb. Places</th>
+                                    <th>Places</th>
+                                    <th>Projections</th>
+                                    <th colspan="2" class="text-center text-muted">Operations</th>
+                                </tr>
+                                <tr th:each="s:${salleList}">
+                                    <td th:text="${s.id}"></td>
+                                    <td th:text="${s.nom}"></td>
+                                    <td th:text="${s.altitude}"></td>
+                                    <td th:text="${s.longtitude}"></td>
+                                    <td th:text="${s.latitude}"></td>
+                                    <td th:text="${s.nombrePlace}"></td>
+                                    <td><a th:href="@{placs(id=${s.id})}">places</a></td>
+                                    <td><a th:href="@{projs(id=${s.id})}">projections</a></td>
+                                    <td>
+                                        <form th:action="@{deleteSalle}" method="post">
+                                            <input type="hidden" name="id" th:value="${s.id}"/>
+                                            <input type="hidden" name="page" th:value="${currentPage}"/>
+                                            <input type="hidden" name="size" th:value="${size}"/>
+                                            <button type="submit" style="border-radius: 25px"
+                                                    class="btn btn-outline-danger">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+
+                                    <td>
+                                        <a th:href="@{editSalle(id=${s.id})}" style="border-radius: 25px"
+                                           class="btn btn-outline-warning">Update</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <a th:href="@{formSalle}" style="border-radius: 25px"
+                               class="btn btn-block btn-outline-success mb-3">Ajouter</a>
+                        </div>
+                        <ul class="nav nav-pills justify-content-center">
+                            <li th:each="page,status:${pages}">
+                                <a style="border-radius: 50px"
+                                   th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+                                   th:href="@{salls(page=${status.index},size=${size})}"
+                                   th:text="${status.index}+1">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

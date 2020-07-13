@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin">
+<head>
+    <meta charset="UTF-8">
+    <title>Films - Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card py-4 my-4" style="border-radius: 25px">
+                    <div class="card-body">
+                        <h3 class="card-title text-muted " th:if="${film.id==null}">Ajouter un Films</h3>
+                        <h3 class="card-title text-muted " th:if="${film.id!=null}">Mettre à jour un Film</h3>
+                        <hr class="mb-1"/>
+                        <form class="mt-3" th:action="@{saveFilm}" method="post">
+                            <div class="form-group">
+                                <label class="control-label">ID : </label>
+                                <label class="control-label" th:if="${film.id!=null}"  th:text="${film.id}"></label>
+                                <label class="control-label" th:if="${film.id==null}">To Be Generated</label>
+                                <input type="hidden" name="id" class="form-control" style="border-radius: 25px" th:value="${film.id}">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Titre : </label>
+                                <input type="text" name="titre" class="form-control" th:value="${film.titre}"
+                                       style="border-radius: 25px">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Description : </label>
+                                <input type="text" name="description" class="form-control" th:value="${film.description}"
+                                       style="border-radius: 25px">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Realisateur : </label>
+                                <input type="text" name="realisateur" class="form-control" th:value="${film.realisateur}"
+                                       style="border-radius: 25px">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Date Sortie : </label>
+                                <input type="date" name="dateSortie" class="form-control" th:value="${film.dateSortie}"
+                                       style="border-radius: 25px">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Duree : </label>
+                                <input type="number" name="duree" class="form-control" th:value="${film.duree}"
+                                       style="border-radius: 25px">
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Photo : </label>
+                                <input type="text" name="photo" class="form-control" th:value="${film.photo}"
+                                       style="border-radius: 25px">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label">Categorie : </label>
+                                <select name="categorie" >
+                                    <option th:each="c:${categorieList}" th:value="${c.id}" th:text="${c.name}"></option>
+                                </select>
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <button align="center" class="btn btn-outline-primary" style="border-radius: 25px"
+                                                type="submit">Enregistrer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

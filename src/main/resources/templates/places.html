@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin">
+<head>
+    <title>Places - Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container justify-content-center mt-3">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card" style="border-radius: 25px">
+                    <div class="card-body">
+                        <h5 class="display-4 mx-4 mb-4">Places</h5>
+                        <hr class="mb-5"/>
+                            <label style="margin-left: 2mm; font-weight: bold">Nb. Places : </label>
+                            <label style="margin-left: 4mm; " th:text="${result}"></label>
+                        <div class="container mt-3">
+                            <table class="table table-hover" style="border-radius: 20px" id="table">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Numero</th>
+                                    <th>Altitude</th>
+                                    <th>Longtitude</th>
+                                    <th>Latitude</th>
+                                    <th>Tickets</th>
+                                    <th colspan="2" class="text-center text-muted">Operations</th>
+                                </tr>
+                                <tr th:each="p:${placeList}">
+                                    <td th:text="${p.id}"></td>
+                                    <td th:text="${p.numero}"></td>
+                                    <td th:text="${p.altitude}"></td>
+                                    <td th:text="${p.longtitude}"></td>
+                                    <td th:text="${p.latitude}"></td>
+                                    <td><a th:href="@{ticks(id=${p.id})}">tickets</a></td>
+                                    <td>
+                                        <form th:action="@{deletePlace}" method="post">
+                                            <input type="hidden" name="id" th:value="${p.id}"/>
+                                            <input type="hidden" name="page" th:value="${currentPage}"/>
+                                            <input type="hidden" name="size" th:value="${size}"/>
+                                            <button type="submit" style="border-radius: 25px"
+                                                    class="btn btn-outline-danger">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+
+                                    <td>
+                                        <a th:href="@{editPlace(id=${p.id})}" style="border-radius: 25px"
+                                           class="btn btn-outline-warning">Update</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <a th:href="@{formPlace}" style="border-radius: 25px"
+                               class="btn btn-block btn-outline-success mb-3">Ajouter</a>
+                        </div>
+                        <ul class="nav nav-pills justify-content-center">
+                            <li th:each="page,status:${pages}">
+                                <a style="border-radius: 50px"
+                                   th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+                                   th:href="@{salls(page=${status.index},size=${size})}"
+                                   th:text="${status.index}+1">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

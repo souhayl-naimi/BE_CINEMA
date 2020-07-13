@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="admin">
+<head>
+    <title>Projections - Admin</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container justify-content-center mt-3">
+        <div class="row ">
+            <div class="col-md-12">
+                <div class="card" style="border-radius: 25px">
+                    <div class="card-body">
+                        <h5 class="display-4 mx-4 mb-4">Projections</h5>
+                        <hr class="mb-5"/>
+                            <label style="margin-left: 2mm; font-weight: bold">Nb. Projections : </label>
+                            <label style="margin-left: 4mm; " th:text="${result}"></label>
+                        <div class="container mt-3">
+                            <table class="table table-hover" style="border-radius: 20px" id="table">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date Projections</th>
+                                    <th>Prix</th>
+                                    <th>Titre Film</th>
+                                    <th>Salle Proj</th>
+                                    <th>Heure Debut</th>
+                                    <th colspan="2" class="text-center text-muted">Operations</th>
+                                </tr>
+                                <tr th:each="p:${projectionList}">
+                                    <td th:text="${p.id}"></td>
+                                    <td th:text="${p.dateProjection}"></td>
+                                    <td th:text="${p.prix}"></td>
+                                    <td th:text="${p.getFilm().getTitre()}"></td>
+                                    <td th:text="${p.getSalle().getNom()}"></td>
+                                    <td th:text="${p.getSceance().getHeureDebut()}"></td>
+                                    <td><a th:href="@{ticks(id=${p.id})}">tickets</a></td>
+                                    <td>
+                                        <form th:action="@{deleteProj}" method="post">
+                                            <input type="hidden" name="id" th:value="${p.id}"/>
+                                            <input type="hidden" name="page" th:value="${currentPage}"/>
+                                            <input type="hidden" name="size" th:value="${size}"/>
+                                            <button type="submit" style="border-radius: 25px"
+                                                    class="btn btn-outline-danger">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a th:href="@{editProj(id=${p.id})}" style="border-radius: 25px"
+                                           class="btn btn-outline-warning">Update</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <a th:href="@{formProjections}" style="border-radius: 25px"
+                               class="btn btn-block btn-outline-success mb-3">Ajouter</a>
+                        </div>
+                        <ul class="nav nav-pills justify-content-center">
+                            <li th:each="page,status:${pages}">
+                                <a style="border-radius: 50px"
+                                   th:class="${status.index==currentPage?'btn btn-primary':'btn'}"
+                                   th:href="@{cinmas(page=${status.index},size=${size})}"
+                                   th:text="${status.index}+1">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
