@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -181,8 +183,16 @@ public class CinemaAdminController {
     @PostMapping(value = "saveSalle")
     public String saveSalle(@Valid Salle salle, BindingResult bindingResult, Model model) {
         model.addAttribute("saved", salle);
-        if (bindingResult.hasErrors()) return "formSalle";
+        if (bindingResult.hasErrors()) {
+            return "formSalle";
+        }
         salleRepository.save(salle);
+
+        for(int i=1; i<=salle.getNombrePlace();i++)
+        {
+            Place place = new Place(null,i,0,0,0,salle,null);
+            placeRepository.save(place);
+        }
         return "confirmationSalle";
 
     }
@@ -236,8 +246,18 @@ public class CinemaAdminController {
     @PostMapping(value = "saveProj")
     public String saveProj(@Valid Projection projection, BindingResult bindingResult, Model model) {
         model.addAttribute("saved", projection);
-        if (bindingResult.hasErrors()) return "formProjections";
+        if (bindingResult.hasErrors()) {
+            return "formProjections";
+        }
         projectionRepository.save(projection);
+        projection.getSalle().getPlaces().forEach(place->{
+            Ticket ticket = new Ticket();
+            ticket.setPlace(place);
+            ticket.setPrix(projection.getPrix());
+            ticket.setProjection(projection);
+            ticket.setReserved(false);
+            ticketRepository.save(ticket);
+        });
         return "confirmationProj";
 
     }
